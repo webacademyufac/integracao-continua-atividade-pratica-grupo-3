@@ -1,4 +1,4 @@
-name: CI Workflow Main - Grupo 3
+name: CI Workflow Main
 on:
   push:
     branches:
