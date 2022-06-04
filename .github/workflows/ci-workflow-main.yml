@@ -4,18 +4,60 @@ on:
     branches:
       - 'main'
 jobs:
-  build:
+
+  test:
     runs-on: ubuntu-latest
-    steps:
-    
+    name: Testes
+    steps:    
       - uses: actions/checkout@v3
       - name: Usando o Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '12.x'
+          node-version: '14'
           
       - name: instalando as depedencias
         run: npm install
         
-      - run: npm run build --if-present
       - run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      
+  build:  
+    runs-on: ubuntu-latest
+    name: Build
+    steps:    
+      - uses: actions/checkout@v3
+      - name: Usando o Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - name: Habilita npm as configs      
+      - run: npm run build --if-present
+      - name: Upload do app  
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-dir
+          path: dist/
+          
+  deploy: 
+    needs: [test, build]
+    runs-on: ubuntu-latest    
+    name: Deploy Heroku
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download do app
+        uses: actions/download-artifact@v3
+        with:
+          name: app-dir
+          path: dist/
+      - name: cópia do arquivo static.json
+        run: cp static.json dist/sgcmapi-cleyciane/
+      - name: Deploy 
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'sgcmapi-cleyciane'
+          heroku_email: 'fariascleycianedelima@gmail.com'
+          appdir: 'dist/'
+
+          
+   
+  
