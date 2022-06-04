@@ -6,21 +6,20 @@ on:
   workflow_dispatch:  
   
 jobs:
-
   test:
-    runs-on: ubuntu-latest
-    name: Testes
-    steps:    
-      - uses: actions/checkout@v3
-      - name: Usando o Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '12.x'
-          
-      - name: instalando as depedencias
-        run: npm install
-        
-      - run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      runs-on: ubuntu-latest
+      name: Testes
+      steps:    
+        - uses: actions/checkout@v3
+        - name: Usando o Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '12.x'
+
+        - name: instalando as depedencias
+          run: npm install
+
+        - run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       
   build:  
     runs-on: ubuntu-latest
