@@ -7,12 +7,12 @@ on:
       
 jobs:
 
-  ci:
+  ci2:
     name: Deploy Workflow Main
     uses: ./.github/workflows/ci-workflow-main.yml
 
   deploy-heroku:
-    needs: ci
+    needs: ci2
     runs-on: ubuntu-latest
     name: Deploy Heroku
     steps:
