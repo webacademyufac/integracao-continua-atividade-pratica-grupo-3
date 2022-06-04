@@ -13,7 +13,7 @@ jobs:
       - name: Usando o Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '12.x'
           
       - name: instalando as depedencias
         run: npm install
